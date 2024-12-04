@@ -12,4 +12,8 @@ public class Ue
     {
         return "ID "+Id +" : "+NumeroUe+" - "+Intitule;
     }
+    
+    // OneToMany : une UE peut avoir plusieurs notes
+    public List<Note>? Notes { get; set; } = new(); 
+
 }

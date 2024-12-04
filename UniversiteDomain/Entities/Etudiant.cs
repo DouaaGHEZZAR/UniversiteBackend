@@ -14,4 +14,8 @@ public class Etudiant
     {
         return $"ID {Id} : {NumEtud} - {Nom} {Prenom} inscrit en "+ParcoursSuivi;
     }
+    
+    //OneToMany : un étudiant peut avoir plusieurs notes
+    public List<Note>? Notes { get; set; } = new();  
+
 }   
