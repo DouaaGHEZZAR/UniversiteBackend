@@ -9,7 +9,7 @@ public class Etudiant
     public string Email { get; set; } = string.Empty;
 
     // ManyToOne : l'étudiant est inscrit dans un parcours
-    public Parcours? ParcoursSuivi { get; set; } = null;
+    public Parcours? ParcoursSuivi { get; set; } = new();
     public override string ToString()
     {
         return $"ID {Id} : {NumEtud} - {Nom} {Prenom} inscrit en "+ParcoursSuivi;
