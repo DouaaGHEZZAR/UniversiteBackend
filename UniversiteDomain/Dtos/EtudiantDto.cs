@@ -20,6 +20,12 @@ public class EtudiantDto
         return this;
     }
     
+    public static List<EtudiantDto> ToDtos(List<Etudiant> etudiants)
+    {
+        return etudiants.Select(e => new EtudiantDto().ToDto(e)).ToList();
+    }
+
+    
     public Etudiant ToEntity()
     {
         return new Etudiant {Id = this.Id, NumEtud = this.NumEtud, Nom = this.Nom, Prenom = this.Prenom, Email = this.Email};
