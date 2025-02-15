@@ -1,7 +1,7 @@
 using UniversiteDomain.DataAdapters.DataAdaptersFactory;
 using UniversiteDomain.Entities;
-using UniversiteDomain.Exceptions.NoteExceptions;
 using UniversiteDomain.Exceptions.EtudiantExceptions;
+using UniversiteDomain.Exceptions.NoteExceptions;
 using UniversiteDomain.Exceptions.UeExceptions;
 
 namespace UniversiteDomain.UseCases.NoteUseCases.Create;
@@ -66,6 +66,11 @@ public class CreateNoteUseCase (IRepositoryFactory _repositoryFactory)
         {
             throw new InvalidOperationException($"L'UE (ID: {ueId}) n'est pas enseignée dans le parcours de l'étudiant (ID: {etudiantId}).");
         }
+    }
+    
+    public bool IsAuthorized(string role)
+    {
+        return role.Equals(Roles.Responsable) || role.Equals(Roles.Scolarite);
     }
 
 }

@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using Moq;
 using UniversiteDomain.DataAdapters;
+using UniversiteDomain.DataAdapters.DataAdaptersFactory;
 using UniversiteDomain.Entities;
 using UniversiteDomain.UseCases.UeUseCases.Create;
 
@@ -25,17 +26,17 @@ public class UeUnitTest
 
         // Créons le mock du repository
         // On initialise une fausse datasource qui va simuler un IUeRepository
-        var mock = new Mock<IUeRepository>();
+        var mock = new Mock<IRepositoryFactory>();
 
         // Simulation de la fonction FindByCondition
         // On dit à ce mock que l'UE n'existe pas déjà
         var reponseFindByCondition = new List<Ue>();
-        mock.Setup(repo => repo.FindByConditionAsync(It.IsAny<Expression<Func<Ue, bool>>>())).ReturnsAsync(reponseFindByCondition);
+        mock.Setup(repo => repo.UeRepository().FindByConditionAsync(It.IsAny<Expression<Func<Ue, bool>>>())).ReturnsAsync(reponseFindByCondition);
 
         // Simulation de la fonction Create
         // On lui dit que l'ajout d'une UE renvoie une UE avec l'Id 1
         Ue ueCree = new Ue { Id = id, NumeroUe = numeroUe, Intitule = intitule };
-        mock.Setup(repoUe => repoUe.CreateAsync(ueSansId)).ReturnsAsync(ueCree);
+        mock.Setup(repoUe => repoUe.UeRepository().CreateAsync(ueSansId)).ReturnsAsync(ueCree);
 
         // On crée le bouchon (un faux UeRepository). Il est prêt à être utilisé
         var fauxUeRepository = mock.Object;

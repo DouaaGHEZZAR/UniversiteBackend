@@ -1,10 +1,11 @@
 using UniversiteDomain.DataAdapters;
+using UniversiteDomain.DataAdapters.DataAdaptersFactory;
 using UniversiteDomain.Entities;
 using UniversiteDomain.Exceptions.UeExceptions;
 
 namespace UniversiteDomain.UseCases.UeUseCases.Create;
 
-public class CreateUeUseCase(IUeRepository repositoryFactory)
+public class CreateUeUseCase(IRepositoryFactory repositoryFactory)
 {
     public async Task<Ue> ExecuteAsync(string numeroUe, string intitule)
     {
@@ -15,7 +16,7 @@ public class CreateUeUseCase(IUeRepository repositoryFactory)
     public async Task<Ue> ExecuteAsync(Ue ue)
     {
         await CheckBusinessRules(ue);
-        Ue createdUe = await repositoryFactory.CreateAsync(ue);
+        Ue createdUe = await repositoryFactory.UeRepository().CreateAsync(ue);
         await repositoryFactory.SaveChangesAsync(); // Sauvegarde asynchrone
         return createdUe;
     }
@@ -27,7 +28,7 @@ public class CreateUeUseCase(IUeRepository repositoryFactory)
         ArgumentNullException.ThrowIfNull(ue.Intitule, nameof(ue.Intitule));
         
         // Vérification si une UE avec le même numéro existe
-        var existingUes = await repositoryFactory.FindByConditionAsync(u => u.NumeroUe == ue.NumeroUe);
+        var existingUes = await repositoryFactory.UeRepository().FindByConditionAsync(u => u.NumeroUe == ue.NumeroUe);
         if (existingUes.Any()) 
             throw new DuplicateNumeroUeException($"Le numéro {ue.NumeroUe} est déjà utilisé par une autre UE.");
         
